@@ -1,6 +1,6 @@
 {
   "name": "@gohanfromgoku/crp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "create react project",
   "bin": {
     "crp": "./create.sh"
