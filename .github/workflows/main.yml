@@ -31,10 +31,13 @@ jobs:
           npm i -g yarn
           yarn version --${{ github.event.inputs.releaseType }}
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
       - name: Push changes
         run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
           git push origin HEAD
 
       - name: Publish package
