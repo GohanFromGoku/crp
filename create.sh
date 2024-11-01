@@ -38,6 +38,7 @@ read -r description
 if [[ -z "$description" ]]; then
   echo "Error: Description should not be empty."
   exit 1
+fi
 
 
 
