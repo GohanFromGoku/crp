@@ -8,18 +8,6 @@ read -r projectName
 echo "Enter Name for package.json(should not start with numbers and no spaces):"
 read -r appName
 
-
-if ! is_valid_name "$appName"; then
-  exit 1
-fi
-
-echo "Enter description:"
-read -r description
-
-if [[ -z "$description" ]]; then
-  echo "Error: Description should not be empty."
-  exit 1
-
 is_valid_name() {
   local name="$1"
   if [[ $name =~ [[:upper:]] ]]; then
@@ -39,6 +27,19 @@ is_valid_name() {
 
   return 0 
 }
+
+if ! is_valid_name "$appName"; then
+  exit 1
+fi
+
+echo "Enter description:"
+read -r description
+
+if [[ -z "$description" ]]; then
+  echo "Error: Description should not be empty."
+  exit 1
+
+
 
 copy_files() {
   local app_name="$1"
