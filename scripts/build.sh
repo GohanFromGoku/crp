@@ -1,0 +1,1 @@
+webpack --mode production --config webpack/webpack.prod.js
