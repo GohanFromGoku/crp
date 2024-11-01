@@ -6,8 +6,7 @@
     "crp": "./create.sh"
   },
   "scripts": {
-    "patch": "yarn version --patch",
-    "push": "yarn patch && node publish.js"
+    "push": "npm publish"
   },
   "keywords": [],
   "author": "gohanfromgoku",

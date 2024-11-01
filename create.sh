@@ -2,11 +2,15 @@
 
 script_dir=$(dirname "$(readlink -f "$0")")
 
-echo "Enter your package name:"
+echo "Enter Project Name:"
 read -r projectName
 
-echo "Enter your app name:"
+echo "Enter Project Display Name:"
 read -r appName
+
+echo "Enter description:"
+read -r description
+
 
 is_valid_name() {
   local name="$1"
@@ -29,24 +33,18 @@ is_valid_name() {
 }
 
 copy_files() {
-  local app_name="$1"  # Define app_name within the function scope
+  local app_name="$1"
 
   mkdir -p "$app_name"
   echo "'$app_name' Created Successfully"
   echo "Files copying..."
 
   case "$(uname -s)" in
-    Linux*) 
-              rsync -av --exclude='node_modules' --exclude='build' --exclude='scripts/create.sh' "$script_dir"/../ "$app_name"/ > /dev/null 2>&1
-              ;;
-    Darwin*) 
-              rsync -av --exclude='node_modules' --exclude='scripts/create.sh' "$script_dir"/../ "$app_name"/ > /dev/null 2>&1
-              ;;
-    CYGWIN*) 
-              rsync -av --exclude='node_modules' --exclude='scripts/create.sh' "$script_dir"/../ "$app_name"/ > /dev/null 2>&1
+    Linux* | Darwin* | CYGWIN*) 
+              rsync -av --exclude='node_modules' --exclude='create.sh' "$script_dir"/template/ "$app_name"/ > /dev/null 2>&1
               ;;
     MINGW*) 
-              cp -r --exclude='node_modules' --exclude='scripts/create.sh' "$script_dir"/../* "$app_name"
+              cp -r "$script_dir"/template/* "$app_name"
               ;;
     *)        echo "Unsupported operating system"
               exit 1
@@ -55,6 +53,7 @@ copy_files() {
 
   echo "Files Copied Successfully!"
 }
+
 
 if ! is_valid_name "$appName"; then
   exit 1
@@ -67,11 +66,14 @@ cd "./$appName" || exit
 yarn install
 
 sed -i '' "s/\"name\":.*/\"name\": \"$appName\",/" "./package.json"
-sed -i '' "s/\"name\":.*/\"name\": \"$projectName\"/" "../app.json"
+sed -i '' "s/\"description\":.*/\"name\": \"$description\",/" "./package.json"
 
-sed -i '' "s/\"short_name\":.*/\"short_name\": \"$projectName\"/" "../public/manifest.json"
-sed -i '' "s/\"name\":.*/\"name\": \"$projectName\"/" "../public/manifest.json"
-sed -i '' "s/\"description\":.*/\"description\": \"$projectName\"/" "../public/manifest.json"
+sed -i '' "s/\"name\":.*/\"name\": \"$projectName\"/" "./app.json"
+
+
+sed -i '' "s/\"short_name\":.*/\"short_name\": \"$projectName\"/" "./public/manifest.json"
+sed -i '' "s/\"name\":.*/\"name\": \"$projectName\"/" "./public/manifest.json"
+sed -i '' "s/\"description\":.*/\"description\": \"$projectName\"/" "./public/manifest.json"
 
 
 git init .
