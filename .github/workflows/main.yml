@@ -26,19 +26,19 @@ jobs:
           node-version: "20.x"
           registry-url: "https://registry.npmjs.org/"
 
+      - name: Install Yarn
+        run: npm i -g yarn
+
       - name: Bump version
-        run: |
-          npm i -g yarn
-          yarn version --${{ github.event.inputs.releaseType }}
+        run: yarn version --${{ github.event.inputs.releaseType }}
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "Your Name"
-          git config --global user.email "you@email.com"
+      # - name: Configure Git
+      #   run: |
+      #     git config --global user.name "Your Name"
+      #     git config --global user.email "you@email.com"
 
-      - name: Push changes
-        run: |
-          git push origin HEAD
+      # - name: Push changes
+      #   run: git push origin HEAD
 
       - name: Publish package
         env:
