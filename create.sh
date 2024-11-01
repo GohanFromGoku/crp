@@ -40,8 +40,6 @@ if [[ -z "$description" ]]; then
   exit 1
 fi
 
-
-
 copy_files() {
   local app_name="$1"
 
@@ -64,24 +62,24 @@ copy_files() {
   echo "Files Copied Successfully!"
 }
 
-
 copy_files "$appName"
 
 cd "./$appName" || exit
 
-yarn install
-
 sed -i '' "s/\"name\":.*/\"name\": \"$appName\",/" "./package.json"
-sed -i '' "s/\"description\":.*/\"name\": \"$description\",/" "./package.json"
+sed -i '' "s/\"description\":.*/\"description\": \"$projectName\",/" "./package.json"
 
 sed -i '' "s/\"name\":.*/\"name\": \"$projectName\"/" "./app.json"
-
 
 sed -i '' "s/\"short_name\":.*/\"short_name\": \"$projectName\"/" "./public/manifest.json"
 sed -i '' "s/\"name\":.*/\"name\": \"$projectName\"/" "./public/manifest.json"
 sed -i '' "s/\"description\":.*/\"description\": \"$projectName\"/" "./public/manifest.json"
 
+yarn install
 
 git init .
 git add .
 git commit -m "Initialized Project"
+
+echo "cd $app_name"
+echo "yarn start"
