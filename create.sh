@@ -2,15 +2,23 @@
 
 script_dir=$(dirname "$(readlink -f "$0")")
 
-echo "Enter Project Name:"
+echo "Enter Name or Webapp (can have spaces):"
 read -r projectName
 
-echo "Enter Project Display Name:"
+echo "Enter Name for package.json(should not start with numbers and no spaces):"
 read -r appName
+
+
+if ! is_valid_name "$appName"; then
+  exit 1
+fi
 
 echo "Enter description:"
 read -r description
 
+if [[ -z "$description" ]]; then
+  echo "Error: Description should not be empty."
+  exit 1
 
 is_valid_name() {
   local name="$1"
@@ -54,10 +62,6 @@ copy_files() {
   echo "Files Copied Successfully!"
 }
 
-
-if ! is_valid_name "$appName"; then
-  exit 1
-fi
 
 copy_files "$appName"
 
