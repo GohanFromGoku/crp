@@ -81,5 +81,5 @@ git init .
 git add .
 git commit -m "Initialized Project"
 
-echo "cd $app_name"
+echo "cd $appName"
 echo "yarn start"
